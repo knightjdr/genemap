@@ -17,12 +17,12 @@ var _ = Describe("Parseflags", func() {
 		It("should parse arguments", func() {
 			os.Args = []string{
 				"cmd",
-				"-folder", "outputfolder/",
+				"-folder", "outputfolder",
 			}
 			fileOptions := map[string]interface{}{}
 
 			expected := parameters{
-				folder: "outputfolder/",
+				folder: "outputfolder",
 			}
 			options, err := parseFlags(fileOptions)
 			Expect(err).ShouldNot(HaveOccurred())
@@ -39,7 +39,7 @@ var _ = Describe("Parseflags", func() {
 
 			options, err := parseFlags(fileOptions)
 			Expect(err).ShouldNot(HaveOccurred())
-			Expect(options.folder).To(Equal("./"), "should set default output folder")
+			Expect(options.folder).To(Equal("."), "should set default output folder")
 		})
 	})
 
@@ -49,15 +49,31 @@ var _ = Describe("Parseflags", func() {
 				"cmd",
 			}
 			fileOptions := map[string]interface{}{
-				"folder": "outputfolder-alternative/",
+				"folder": "outputfolder-alternative",
 			}
 
 			expected := parameters{
-				folder: "outputfolder-alternative/",
+				folder: "outputfolder-alternative",
 			}
 			options, err := parseFlags(fileOptions)
 			Expect(err).ShouldNot(HaveOccurred())
 			Expect(options).To(Equal(expected), "should set options")
 		})
+	})
+})
+
+var _ = Describe("Parse folder name", func() {
+	It("should remove trailing slash", func() {
+		folder := "path/folder/"
+
+		expected := "path/folder"
+		Expect(parseFolderName(folder)).To(Equal(expected))
+	})
+
+	It("should return name that does not end in a slash", func() {
+		folder := "path/folder"
+
+		expected := "path/folder"
+		Expect(parseFolderName(folder)).To(Equal(expected))
 	})
 })
