@@ -1,7 +1,7 @@
 package generate
 
 import (
-	"github.com/knightjdr/genemap/internal/pkg/flags"
+	"github.com/knightjdr/genemap/pkg/flags"
 )
 
 type parameters struct {

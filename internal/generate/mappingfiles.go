@@ -1,7 +1,9 @@
 // Package generate mapping file between various types.
 package generate
 
-import "log"
+import (
+	"log"
+)
 
 // MappingFiles generates file for mapping between types.
 func MappingFiles(fileOptions map[string]interface{}) {
@@ -10,5 +12,7 @@ func MappingFiles(fileOptions map[string]interface{}) {
 		log.Fatalln(err)
 	}
 
-	downloadUniprot(options.folder)
+	fetchUniprot(options.folder)
+	entries := parseUniprot(options.folder)
+	outputMapping(entries, options.folder)
 }

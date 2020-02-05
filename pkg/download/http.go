@@ -4,18 +4,19 @@ package download
 import (
 	"io"
 	"net/http"
-	"os"
+
+	"github.com/knightjdr/genemap/pkg/fs"
 )
 
-// File will download a url to a local file.
-func File(url, filepath string) error {
+// HTTP will download an http url to a local file.
+func HTTP(url, filepath string) error {
 	resp, err := http.Get(url)
 	if err != nil {
 		return err
 	}
 	defer resp.Body.Close()
 
-	out, err := os.Create(filepath)
+	out, err := fs.Instance.Create(filepath)
 	if err != nil {
 		return err
 	}

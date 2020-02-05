@@ -1,10 +1,10 @@
-package generate
+package main
 
 import (
 	"encoding/json"
 
-	"github.com/knightjdr/genemap/internal/pkg/flags"
-	"github.com/knightjdr/genemap/internal/pkg/fs"
+	"github.com/knightjdr/genemap/pkg/flags"
+	"github.com/knightjdr/genemap/pkg/fs"
 	"github.com/spf13/afero"
 )
 

@@ -1,4 +1,4 @@
-package main_test
+package slice_test
 
 import (
 	"testing"
@@ -7,7 +7,7 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-func TestGenerate(t *testing.T) {
+func TestSlice(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "Generate Suite")
+	RunSpecs(t, "Slice Suite")
 }

@@ -1,5 +1,5 @@
-// Package generate mapping file between various types.
-package generate
+// Package main generates mapping file between various types.
+package main
 
 import (
 	"log"
@@ -7,7 +7,7 @@ import (
 	g "github.com/knightjdr/genemap/internal/generate"
 )
 
-func generate() {
+func main() {
 	options, err := parseFlags()
 	if err != nil {
 		log.Fatalln(err)

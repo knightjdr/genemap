@@ -1,9 +1,9 @@
-package generate
+package main
 
 import (
 	"os"
 
-	"github.com/knightjdr/genemap/internal/pkg/fs"
+	"github.com/knightjdr/genemap/pkg/fs"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	"github.com/spf13/afero"
