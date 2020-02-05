@@ -17,6 +17,7 @@ DE   RecName: Full=14-3-3 protein beta/alpha;
 GN   Name=YWHAB;
 DR   Ensembl; ENST00000353703; ENSP00000300161; ENSG00000166913. [P31946-1]
 DR   Ensembl; ENST00000372839; ENSP00000361930; ENSG00000166913. [P31946-1]
+DR   BioGrid; 113361; 404.
 DR   GeneID; 7529; -.
 DR   RefSeq; NP_003395.1; NM_003404.4. [P31946-1]
 DR   RefSeq; NP_647539.1; NM_139323.3. [P31946-1]
@@ -94,10 +95,11 @@ var _ = Describe("Parse uniprot", func() {
 		expected := &uniprotEntries{
 			uniprotEntry{
 				Accession:       []string{"P31946", "A8K9K2", "E1P616"},
+				Biogrid:         113361,
 				EnsemblGene:     []string{"ENSG00000166913"},
 				EnsembleProtein: []string{"ENSP00000300161", "ENSP00000361930"},
-				Entrez:          "7529",
-				HGNC:            "12849",
+				Entrez:          7529,
+				HGNC:            12849,
 				ID:              "1433B_HUMAN",
 				Name:            "14-3-3 protein beta/alpha",
 				RefseqMRNA:      []string{"NM_003404", "NM_139323", "XM_017028039"},
@@ -109,8 +111,8 @@ var _ = Describe("Parse uniprot", func() {
 				Accession:       []string{"Q96QU6", "B4E219", "Q8WUL4", "Q96LX5"},
 				EnsemblGene:     []string{"ENSG00000110455"},
 				EnsembleProtein: []string{"ENSP00000263776"},
-				Entrez:          "84680",
-				HGNC:            "23989",
+				Entrez:          84680,
+				HGNC:            23989,
 				ID:              "1A1L1_HUMAN",
 				Name:            "1-aminocyclopropane-1-carboxylate synthase-like protein 1",
 				RefseqMRNA:      []string{"NM_001127219", "NM_032592"},
@@ -122,8 +124,8 @@ var _ = Describe("Parse uniprot", func() {
 				Accession:       []string{"Q9BUL8", "A8K515", "D3DNN5", "O14811"},
 				EnsemblGene:     []string{"ENSG00000114209"},
 				EnsembleProtein: []string{"ENSP00000376506", "ENSP00000417202", "ENSP00000418317", "ENSP00000420021", "ENSP00000420553"},
-				Entrez:          "11235",
-				HGNC:            "8761",
+				Entrez:          11235,
+				HGNC:            8761,
 				ID:              "PDC10_HUMAN",
 				Name:            "Programmed cell death protein 10",
 				RefseqMRNA:      []string{"NM_007217", "NM_145859", "NM_145860", "XM_005247086"},

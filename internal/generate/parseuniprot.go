@@ -6,6 +6,7 @@ import (
 	"log"
 	"regexp"
 	"sort"
+	"strconv"
 	"strings"
 
 	"github.com/knightjdr/cmgo/pkg/slice"
@@ -16,10 +17,11 @@ type uniprotEntries []uniprotEntry
 
 type uniprotEntry struct {
 	Accession       []string `json:"accession"`
+	Biogrid         int      `json:"biogrid"`
 	EnsemblGene     []string `json:"ensemblg"`
 	EnsembleProtein []string `json:"ensemblp"`
-	Entrez          string   `json:"entrez"`
-	HGNC            string   `json:"hgnc"`
+	Entrez          int      `json:"entrez"`
+	HGNC            int      `json:"hgnc"`
 	ID              string   `json:"id"`
 	Name            string   `json:"name"`
 	RefseqMRNA      []string `json:"refseqm"`
@@ -46,19 +48,21 @@ func parseUniprot(folder string) *uniprotEntries {
 		if strings.HasPrefix(line, "ID") {
 			entry = uniprotEntry{
 				Accession: []string{},
-				ID:        parseValue(re["id"], line),
+				ID:        parseString(re["id"], line),
 				Reviewed:  isReviewed(line),
 			}
 		} else if strings.HasPrefix(line, "AC") {
 			entry.Accession = append(entry.Accession, parseArrayValue(re["accession"], line)...)
 		} else if strings.HasPrefix(line, "DE   RecName") {
-			entry.Name = parseValue(re["name"], line)
+			entry.Name = parseString(re["name"], line)
+		} else if strings.HasPrefix(line, "DR   BioGrid") {
+			entry.Biogrid = parseInt(re["biogrid"], line)
 		} else if strings.HasPrefix(line, "DR   Ensembl") {
 			entry.EnsemblGene = append(entry.EnsemblGene, parseArrayValue(re["ensembl"], line)...)
 		} else if strings.HasPrefix(line, "DR   GeneID") {
-			entry.Entrez = parseValue(re["entrez"], line)
+			entry.Entrez = parseInt(re["entrez"], line)
 		} else if strings.HasPrefix(line, "DR   HGNC") {
-			entry.HGNC = parseValue(re["hgnc"], line)
+			entry.HGNC = parseInt(re["hgnc"], line)
 		} else if strings.HasPrefix(line, "DR   RefSeq") {
 			entry.RefseqMRNA = append(entry.RefseqMRNA, parseArrayValue(re["refseq"], line)...)
 		} else if strings.HasPrefix(line, "GN") {
@@ -77,6 +81,7 @@ func parseUniprot(folder string) *uniprotEntries {
 
 func createRe() map[string]*regexp.Regexp {
 	accession := regexp.MustCompile(`(\w+);`)
+	biogrid := regexp.MustCompile(`BioGrid; (\d+);`)
 	ensembl := regexp.MustCompile(`(ENS[GP]\d+)`)
 	entrez := regexp.MustCompile(`GeneID; (\w+);`)
 	hgnc := regexp.MustCompile(`HGNC:(\d+)`)
@@ -86,6 +91,7 @@ func createRe() map[string]*regexp.Regexp {
 	symbol := regexp.MustCompile(`(?:Name=|Synonyms=|^GN\s{3})([^;{]+)`)
 	return map[string]*regexp.Regexp{
 		"accession": accession,
+		"biogrid":   biogrid,
 		"ensembl":   ensembl,
 		"entrez":    entrez,
 		"hgnc":      hgnc,
@@ -100,7 +106,16 @@ func isReviewed(line string) bool {
 	return strings.Contains(line, "Reviewed")
 }
 
-func parseValue(re *regexp.Regexp, line string) string {
+func parseInt(re *regexp.Regexp, line string) int {
+	matches := re.FindStringSubmatch(line)
+	if len(matches) > 0 {
+		number, _ := strconv.Atoi(matches[1])
+		return number
+	}
+	return 0
+}
+
+func parseString(re *regexp.Regexp, line string) string {
 	matches := re.FindStringSubmatch(line)
 	if len(matches) > 0 {
 		return matches[1]
