@@ -5,12 +5,14 @@ import (
 	"log"
 
 	"github.com/knightjdr/genemap/pkg/download"
+	"github.com/knightjdr/genemap/pkg/fs"
 	"github.com/knightjdr/genemap/pkg/zip"
 )
 
 func fetchUniprot(folder string) {
 	downloadUniprot(folder)
 	unzipUniprot(folder)
+	removeGZ(folder)
 }
 
 func downloadUniprot(folder string) {
@@ -29,4 +31,12 @@ func unzipUniprot(folder string) {
 	target := fmt.Sprintf("%s/uniprot.dat", folder)
 
 	zip.Gunzip(source, target)
+}
+
+func removeGZ(folder string) {
+	gzipFile := fmt.Sprintf("%s/uniprot.dat.gz", folder)
+	err := fs.Instance.Remove(gzipFile)
+	if err != nil {
+		log.Println(err)
+	}
 }

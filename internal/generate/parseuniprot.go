@@ -31,7 +31,8 @@ type uniprotEntry struct {
 }
 
 func parseUniprot(folder string) *uniprotEntries {
-	file, err := fs.Instance.Open(fmt.Sprintf("%s/uniprot.dat", folder))
+	datFile := fmt.Sprintf("%s/uniprot.dat", folder)
+	file, err := fs.Instance.Open(datFile)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -75,6 +76,8 @@ func parseUniprot(folder string) *uniprotEntries {
 	if err := scanner.Err(); err != nil {
 		log.Fatalln(err)
 	}
+
+	removeDat(datFile)
 
 	return entries
 }
@@ -199,4 +202,11 @@ func separateRefseq(entry *uniprotEntry) {
 
 	sort.Strings((*entry).RefseqMRNA)
 	sort.Strings((*entry).RefseqProtein)
+}
+
+func removeDat(file string) {
+	err := fs.Instance.Remove(file)
+	if err != nil {
+		log.Println(err)
+	}
 }
