@@ -1,5 +1,5 @@
-// Package main contains functions for generating a map of gene identifiers and converting between them.
-package main
+// Package genemap contains functions for generating a map of gene identifiers and converting between them.
+package genemap
 
 import (
 	"github.com/knightjdr/genemap/internal/generate"
