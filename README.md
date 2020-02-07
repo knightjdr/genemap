@@ -28,8 +28,8 @@ func main() {
 The map generation step can be run from the command line
 
 ```
-> go get github.com/knightjdr/genemap
-> cd $GOPATH/src/github.com/knightjdr/prohits-viz-analysis
+> go get -v github.com/knightjdr/genemap
+> cd $GOPATH/src/github.com/knightjdr/genemap
 > go install ./...
 > genemap --folder="./my-folder/"
 ```

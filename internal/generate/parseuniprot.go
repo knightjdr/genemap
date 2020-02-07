@@ -8,8 +8,8 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/knightjdr/cmgo/pkg/slice"
 	"github.com/knightjdr/genemap/pkg/fs"
+	"github.com/knightjdr/genemap/pkg/slice"
 )
 
 // uniprotRecords is an array of UniProt records/entries.
