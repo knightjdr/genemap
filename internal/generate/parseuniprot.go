@@ -6,31 +6,32 @@ import (
 	"log"
 	"regexp"
 	"sort"
-	"strconv"
 	"strings"
 
 	"github.com/knightjdr/cmgo/pkg/slice"
 	"github.com/knightjdr/genemap/pkg/fs"
 )
 
-type uniprotEntries []uniprotEntry
+// uniprotRecords is an array of UniProt records/entries.
+type uniprotRecords []uniprotRecord
 
-type uniprotEntry struct {
-	Accession       []string `json:"accession"`
-	Biogrid         int      `json:"biogrid"`
-	EnsemblGene     []string `json:"ensemblg"`
-	EnsembleProtein []string `json:"ensemblp"`
-	Entrez          int      `json:"entrez"`
-	HGNC            int      `json:"hgnc"`
-	ID              string   `json:"id"`
-	Name            string   `json:"name"`
-	RefseqMRNA      []string `json:"refseqm"`
-	RefseqProtein   []string `json:"refseqp"`
-	Reviewed        bool     `json:"-"`
-	Symbol          []string `json:"symbol"`
+// uniprotRecord is a gene record from UniProt.
+type uniprotRecord struct {
+	Accession      []string
+	Biogrid        string
+	EnsemblGene    []string
+	EnsemblProtein []string
+	Entrez         string
+	HGNC           string
+	ID             string
+	Name           string
+	RefseqMRNA     []string
+	RefseqProtein  []string
+	Reviewed       bool `json:"-"`
+	Symbol         []string
 }
 
-func parseUniprot(folder string) *uniprotEntries {
+func parseUniprot(folder string) *uniprotRecords {
 	datFile := fmt.Sprintf("%s/uniprot.dat", folder)
 	file, err := fs.Instance.Open(datFile)
 	if err != nil {
@@ -38,8 +39,8 @@ func parseUniprot(folder string) *uniprotEntries {
 	}
 	defer file.Close()
 
-	entries := &uniprotEntries{}
-	entry := uniprotEntry{}
+	entries := &uniprotRecords{}
+	entry := uniprotRecord{}
 	re := createRe()
 
 	scanner := bufio.NewScanner(file)
@@ -47,7 +48,7 @@ func parseUniprot(folder string) *uniprotEntries {
 		line := scanner.Text()
 
 		if strings.HasPrefix(line, "ID") {
-			entry = uniprotEntry{
+			entry = uniprotRecord{
 				Accession: []string{},
 				ID:        parseString(re["id"], line),
 				Reviewed:  isReviewed(line),
@@ -57,13 +58,13 @@ func parseUniprot(folder string) *uniprotEntries {
 		} else if strings.HasPrefix(line, "DE   RecName") {
 			entry.Name = parseString(re["name"], line)
 		} else if strings.HasPrefix(line, "DR   BioGrid") {
-			entry.Biogrid = parseInt(re["biogrid"], line)
+			entry.Biogrid = parseString(re["biogrid"], line)
 		} else if strings.HasPrefix(line, "DR   Ensembl") {
 			entry.EnsemblGene = append(entry.EnsemblGene, parseArrayValue(re["ensembl"], line)...)
 		} else if strings.HasPrefix(line, "DR   GeneID") {
-			entry.Entrez = parseInt(re["entrez"], line)
+			entry.Entrez = parseString(re["entrez"], line)
 		} else if strings.HasPrefix(line, "DR   HGNC") {
-			entry.HGNC = parseInt(re["hgnc"], line)
+			entry.HGNC = parseString(re["hgnc"], line)
 		} else if strings.HasPrefix(line, "DR   RefSeq") {
 			entry.RefseqMRNA = append(entry.RefseqMRNA, parseArrayValue(re["refseq"], line)...)
 		} else if strings.HasPrefix(line, "GN") {
@@ -109,15 +110,6 @@ func isReviewed(line string) bool {
 	return strings.Contains(line, "Reviewed")
 }
 
-func parseInt(re *regexp.Regexp, line string) int {
-	matches := re.FindStringSubmatch(line)
-	if len(matches) > 0 {
-		number, _ := strconv.Atoi(matches[1])
-		return number
-	}
-	return 0
-}
-
 func parseString(re *regexp.Regexp, line string) string {
 	matches := re.FindStringSubmatch(line)
 	if len(matches) > 0 {
@@ -138,7 +130,7 @@ func parseArrayValue(re *regexp.Regexp, line string) []string {
 	return []string{}
 }
 
-func addEntry(entries *uniprotEntries, entry uniprotEntry) {
+func addEntry(entries *uniprotRecords, entry uniprotRecord) {
 	if entry.Reviewed {
 		trimName(&entry)
 		splitSymbols(&entry)
@@ -148,11 +140,11 @@ func addEntry(entries *uniprotEntries, entry uniprotEntry) {
 	}
 }
 
-func trimName(entry *uniprotEntry) {
+func trimName(entry *uniprotRecord) {
 	(*entry).Name = strings.TrimSpace((*entry).Name)
 }
 
-func splitSymbols(entry *uniprotEntry) {
+func splitSymbols(entry *uniprotRecord) {
 	symbols := make([]string, 0)
 
 	for _, symbol := range entry.Symbol {
@@ -168,7 +160,7 @@ func splitSymbols(entry *uniprotEntry) {
 	(*entry).Symbol = symbols
 }
 
-func separateEnsembl(entry *uniprotEntry) {
+func separateEnsembl(entry *uniprotRecord) {
 	gene := entry.EnsemblGene
 	protein := make([]string, 0)
 
@@ -180,13 +172,13 @@ func separateEnsembl(entry *uniprotEntry) {
 	}
 
 	(*entry).EnsemblGene = slice.UniqueStrings(gene)
-	(*entry).EnsembleProtein = slice.UniqueStrings(protein)
+	(*entry).EnsemblProtein = slice.UniqueStrings(protein)
 
 	sort.Strings((*entry).EnsemblGene)
-	sort.Strings((*entry).EnsembleProtein)
+	sort.Strings((*entry).EnsemblProtein)
 }
 
-func separateRefseq(entry *uniprotEntry) {
+func separateRefseq(entry *uniprotRecord) {
 	mrna := entry.RefseqMRNA
 	protein := make([]string, 0)
 
