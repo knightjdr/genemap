@@ -4,7 +4,7 @@ package main
 import (
 	"log"
 
-	g "github.com/knightjdr/genemap/internal/generate"
+	"github.com/knightjdr/genemap/internal/generate"
 )
 
 func main() {
@@ -13,5 +13,5 @@ func main() {
 		log.Fatalln(err)
 	}
 
-	g.MappingFiles(options)
+	generate.MappingFilesCMD(options)
 }

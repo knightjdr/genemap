@@ -9,6 +9,8 @@ import (
 	"github.com/knightjdr/genemap/pkg/zip"
 )
 
+var FTP = download.FTP
+
 func fetchUniprot(folder string) {
 	downloadUniprot(folder)
 	unzipUniprot(folder)
@@ -20,7 +22,7 @@ func downloadUniprot(folder string) {
 	source := "/pub/databases/uniprot/current_release/knowledgebase/taxonomic_divisions/uniprot_sprot_human.dat.gz"
 	target := fmt.Sprintf("%s/uniprot.dat.gz", folder)
 
-	err := download.FTP(url, source, target)
+	err := FTP(url, source, target)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -30,7 +32,10 @@ func unzipUniprot(folder string) {
 	source := fmt.Sprintf("%s/uniprot.dat.gz", folder)
 	target := fmt.Sprintf("%s/uniprot.dat", folder)
 
-	zip.Gunzip(source, target)
+	err := zip.Gunzip(source, target)
+	if err != nil {
+		log.Fatalln(err)
+	}
 }
 
 func removeGZ(folder string) {

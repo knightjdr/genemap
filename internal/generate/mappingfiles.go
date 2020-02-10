@@ -6,13 +6,18 @@ import (
 )
 
 // MappingFiles generates file for mapping between types.
-func MappingFiles(options map[string]interface{}) {
+func MappingFiles(folder string) {
+	fetchUniprot(folder)
+	entries := parseUniprot(folder)
+	outputMapping(entries, folder)
+}
+
+// MappingFilesCMD is a wrapper for the CLI.
+func MappingFilesCMD(options map[string]interface{}) {
 	settings, err := parseFlags(options)
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	fetchUniprot(settings.folder)
-	entries := parseUniprot(settings.folder)
-	outputMapping(entries, settings.folder)
+	MappingFiles(settings.folder)
 }

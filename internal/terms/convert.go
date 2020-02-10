@@ -4,7 +4,7 @@ import "sort"
 
 func convertIDs(m *Mapper, ids []string) {
 	m.Converted = make(map[string]string, 0)
-	m.PossibleConverions = make(map[string][]string, 0)
+	m.PossibleConversions = make(map[string][]string, 0)
 
 	lookup := createLookupTable(m)
 	lookupAndConvertIDs(m, lookup, ids)
@@ -28,7 +28,7 @@ func lookupAndConvertIDs(m *Mapper, lookup *map[string]record, ids []string) {
 			m.Unconverted = append(m.Unconverted, id)
 		} else {
 			targetValues := (*lookup)[id].getValue(m.ToType)
-			m.PossibleConverions[id] = targetValues
+			m.PossibleConversions[id] = targetValues
 			m.Converted[id] = targetValues[0]
 
 		}

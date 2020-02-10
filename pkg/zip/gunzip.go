@@ -4,12 +4,13 @@ package zip
 import (
 	"compress/gzip"
 	"io"
-	"os"
+
+	"github.com/knightjdr/genemap/pkg/fs"
 )
 
 // Gunzip a file.
 func Gunzip(source, target string) error {
-	reader, err := os.Open(source)
+	reader, err := fs.Instance.Open(source)
 	if err != nil {
 		return err
 	}
@@ -21,7 +22,7 @@ func Gunzip(source, target string) error {
 	}
 	defer archive.Close()
 
-	writer, err := os.Create(target)
+	writer, err := fs.Instance.Create(target)
 	if err != nil {
 		return err
 	}

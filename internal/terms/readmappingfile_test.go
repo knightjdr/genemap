@@ -23,6 +23,18 @@ var jsonText = `[
 		"RefseqMRNA": ["NM_003404","NM_139323","XM_017028039"],
 		"RefseqProtein": ["NP_003395","NP_647539","XP_016883528"],
 		"Symbol": ["YWHAB"]
+	},
+	{
+		"Accession": ["Q96QU6", "B4E219", "Q8WUL4", "Q96LX5"],
+		"Symbol": ["ACCS", "PHACS"]
+	},
+	{
+		"Accession": ["Q9BUL8", "A8K515", "D3DNN5", "O14811"],
+		"Symbol":    ["PDCD10", "CCM3", "TFAR15"]
+	},
+	{
+		"Accession": ["Q9P289", "B2RAU2", "Q3ZB77", "Q8NC04", "Q9BXC3", "Q9BXC4"],
+		"Symbol":    ["STK26", "MASK", "MST4"]
 	}
 ]`
 
@@ -83,6 +95,18 @@ var _ = Describe("Read mapping file", func() {
 				RefseqMRNA:     []string{"NM_003404", "NM_139323", "XM_017028039"},
 				RefseqProtein:  []string{"NP_003395", "NP_647539", "XP_016883528"},
 				Symbol:         []string{"YWHAB"},
+			},
+			record{
+				Accession: []string{"Q96QU6", "B4E219", "Q8WUL4", "Q96LX5"},
+				Symbol:    []string{"ACCS", "PHACS"},
+			},
+			record{
+				Accession: []string{"Q9BUL8", "A8K515", "D3DNN5", "O14811"},
+				Symbol:    []string{"PDCD10", "CCM3", "TFAR15"},
+			},
+			record{
+				Accession: []string{"Q9P289", "B2RAU2", "Q3ZB77", "Q8NC04", "Q9BXC3", "Q9BXC4"},
+				Symbol:    []string{"STK26", "MASK", "MST4"},
 			},
 		}
 		Expect(readMappingFile("test/genemap.json")).To(Equal(expected))

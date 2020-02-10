@@ -40,7 +40,7 @@ var _ = Describe("Convert ids", func() {
 				"YWHAB": "P31946",
 			},
 			FromType: "Symbol",
-			PossibleConverions: map[string][]string{
+			PossibleConversions: map[string][]string{
 				"ACCS":  []string{"Q96QU6", "B4E219", "Q8WUL4", "Q96LX5"},
 				"CCM3":  []string{"Q9BUL8", "A8K515", "D3DNN5", "O14811"},
 				"MST4":  []string{"Q9P289", "B2RAU2", "Q3ZB77", "Q8NC04", "Q9BXC3", "Q9BXC4"},

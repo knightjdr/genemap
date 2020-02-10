@@ -30,6 +30,18 @@ var _ = Describe("Mapper", func() {
 				RefseqProtein:  []string{"NP_003395", "NP_647539", "XP_016883528"},
 				Symbol:         []string{"YWHAB"},
 			},
+			record{
+				Accession: []string{"Q96QU6", "B4E219", "Q8WUL4", "Q96LX5"},
+				Symbol:    []string{"ACCS", "PHACS"},
+			},
+			record{
+				Accession: []string{"Q9BUL8", "A8K515", "D3DNN5", "O14811"},
+				Symbol:    []string{"PDCD10", "CCM3", "TFAR15"},
+			},
+			record{
+				Accession: []string{"Q9P289", "B2RAU2", "Q3ZB77", "Q8NC04", "Q9BXC3", "Q9BXC4"},
+				Symbol:    []string{"STK26", "MASK", "MST4"},
+			},
 		}
 
 		mapper := CreateMapper()
@@ -69,7 +81,7 @@ var _ = Describe("Mapper", func() {
 			"MST4":  "Q9P289",
 			"YWHAB": "P31946",
 		}
-		expectedPossibleConverions := map[string][]string{
+		expectedPossibleConversions := map[string][]string{
 			"ACCS":  []string{"Q96QU6", "B4E219", "Q8WUL4", "Q96LX5"},
 			"CCM3":  []string{"Q9BUL8", "A8K515", "D3DNN5", "O14811"},
 			"MST4":  []string{"Q9P289", "B2RAU2", "Q3ZB77", "Q8NC04", "Q9BXC3", "Q9BXC4"},
@@ -102,7 +114,36 @@ var _ = Describe("Mapper", func() {
 
 		Expect(err).To(BeNil(), "should not return an error: %e", err)
 		Expect(mapper.Converted).To(Equal(expectedConverted), "should convert ids to a single value")
-		Expect(mapper.PossibleConverions).To(Equal(expectedPossibleConverions), "should return all possible conversion for ids")
+		Expect(mapper.PossibleConversions).To(Equal(expectedPossibleConversions), "should return all possible conversion for ids")
 		Expect(mapper.Unconverted).To(Equal(expectedUnconverted), "should return ids that could not be converted")
+	})
+
+	It("should map IDs from command line", func() {
+		oldFs := fs.Instance
+		defer func() { fs.Instance = oldFs }()
+		fs.Instance = afero.NewMemMapFs()
+
+		fs.Instance.MkdirAll("test", 0755)
+		afero.WriteFile(fs.Instance, "test/ids.txt", []byte(idText), 0444)
+		afero.WriteFile(fs.Instance, "test/genemap.json", []byte(jsonText), 0444)
+
+		options := map[string]interface{}{
+			"fromType": "Symbol",
+			"idFile":   "test/ids.txt",
+			"mapFile":  "test/genemap.json",
+			"outFile":  "test/out.txt",
+			"toType":   "Accession",
+		}
+
+		expected := "Symbol\tAccession\tPossible conversions\n" +
+			"ACCS\tQ96QU6\tQ96QU6, B4E219, Q8WUL4, Q96LX5\n" +
+			"CCM3\tQ9BUL8\tQ9BUL8, A8K515, D3DNN5, O14811\n" +
+			"MST4\tQ9P289\tQ9P289, B2RAU2, Q3ZB77, Q8NC04, Q9BXC3, Q9BXC4\n" +
+			"YWHAB\tP31946\tP31946, A8K9K2, E1P616\n" +
+			"STK24\t\t\n"
+
+		MapperCMD(options)
+		bytes, _ := afero.ReadFile(fs.Instance, "test/out.txt")
+		Expect(string(bytes)).To(Equal(expected))
 	})
 })
