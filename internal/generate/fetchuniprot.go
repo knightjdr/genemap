@@ -9,6 +9,7 @@ import (
 	"github.com/knightjdr/genemap/pkg/zip"
 )
 
+// FTP download function
 var FTP = download.FTP
 
 func fetchUniprot(folder string) {
