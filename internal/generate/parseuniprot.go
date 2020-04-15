@@ -70,6 +70,7 @@ func parseUniprot(folder string) *uniprotRecords {
 		} else if strings.HasPrefix(line, "GN") {
 			entry.Symbol = append(entry.Symbol, parseArrayValue(re["symbol"], line)...)
 		} else if strings.HasPrefix(line, "//") {
+			entry.Symbol = removeORFNames(entry.Symbol)
 			addEntry(entries, entry)
 		}
 	}
@@ -138,6 +139,18 @@ func addEntry(entries *uniprotRecords, entry uniprotRecord) {
 		separateRefseq(&entry)
 		*entries = append(*entries, entry)
 	}
+}
+
+func removeORFNames(symbols []string) []string {
+	cleaned := make([]string, 0)
+
+	for _, symbol := range symbols {
+		if !strings.HasPrefix(symbol, "ORFNames") {
+			cleaned = append(cleaned, symbol)
+		}
+	}
+
+	return cleaned
 }
 
 func trimName(entry *uniprotRecord) {

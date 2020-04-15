@@ -75,6 +75,7 @@ DE   AltName: Full=Serine/threonine-protein kinase MASK {ECO:0000305};
 GN   Name=STK26 {ECO:0000312|HGNC:HGNC:18174};
 GN   Synonyms=MASK {ECO:0000303|PubMed:11741893},
 GN   MST4 {ECO:0000303|PubMed:11641781};
+GN   ORFNames=NAME1, NAME2;
 //
 `
 
