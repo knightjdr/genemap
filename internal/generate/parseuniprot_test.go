@@ -75,6 +75,7 @@ DE   AltName: Full=Serine/threonine-protein kinase MASK {ECO:0000305};
 GN   Name=STK26 {ECO:0000312|HGNC:HGNC:18174};
 GN   Synonyms=MASK {ECO:0000303|PubMed:11741893},
 GN   MST4 {ECO:0000303|PubMed:11641781};
+GN   ECO:1111111|PubMed:11111111}, OTHERNAME;
 GN   ORFNames=NAME1, NAME2;
 //
 `
@@ -143,7 +144,7 @@ var _ = Describe("Parse uniprot", func() {
 				RefseqMRNA:     []string{},
 				RefseqProtein:  []string{},
 				Reviewed:       true,
-				Symbol:         []string{"STK26", "MASK", "MST4"},
+				Symbol:         []string{"STK26", "MASK", "MST4", "OTHERNAME"},
 			},
 		}
 		Expect(parseUniprot("test")).To(Equal(expected))

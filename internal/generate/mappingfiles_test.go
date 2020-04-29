@@ -80,7 +80,7 @@ var _ = Describe("Mapping files", func() {
 			"\t\t\"Name\": \"Serine/threonine-protein kinase 26\",\n" +
 			"\t\t\"RefseqMRNA\": [],\n" +
 			"\t\t\"RefseqProtein\": [],\n" +
-			"\t\t\"Symbol\": [\n\t\t\t\"STK26\",\n\t\t\t\"MASK\",\n\t\t\t\"MST4\"\n" +
+			"\t\t\"Symbol\": [\n\t\t\t\"STK26\",\n\t\t\t\"MASK\",\n\t\t\t\"MST4\",\n\t\t\t\"OTHERNAME\"\n" +
 			"\t\t]\n" +
 			"\t}\n" +
 			"]"
@@ -161,7 +161,7 @@ var _ = Describe("Mapping files", func() {
 			"\t\t\"Name\": \"Serine/threonine-protein kinase 26\",\n" +
 			"\t\t\"RefseqMRNA\": [],\n" +
 			"\t\t\"RefseqProtein\": [],\n" +
-			"\t\t\"Symbol\": [\n\t\t\t\"STK26\",\n\t\t\t\"MASK\",\n\t\t\t\"MST4\"\n" +
+			"\t\t\"Symbol\": [\n\t\t\t\"STK26\",\n\t\t\t\"MASK\",\n\t\t\t\"MST4\",\n\t\t\t\"OTHERNAME\"\n" +
 			"\t\t]\n" +
 			"\t}\n" +
 			"]"

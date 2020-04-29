@@ -135,6 +135,7 @@ func addEntry(entries *uniprotRecords, entry uniprotRecord) {
 	if entry.Reviewed {
 		trimName(&entry)
 		splitSymbols(&entry)
+		removeUnwantedSymbols(&entry)
 		separateEnsembl(&entry)
 		separateRefseq(&entry)
 		*entries = append(*entries, entry)
@@ -168,6 +169,18 @@ func splitSymbols(entry *uniprotRecord) {
 		symbol = strings.Replace(symbol, "Name=", "", 1)
 		symbol = strings.Replace(symbol, "Synonyms=", "", 1)
 		symbols[i] = strings.TrimSpace(symbol)
+	}
+
+	(*entry).Symbol = symbols
+}
+
+func removeUnwantedSymbols(entry *uniprotRecord) {
+	symbols := make([]string, 0)
+
+	for _, symbol := range entry.Symbol {
+		if !strings.HasSuffix(symbol, "{") && !strings.HasSuffix(symbol, "}") {
+			symbols = append(symbols, symbol)
+		}
 	}
 
 	(*entry).Symbol = symbols
