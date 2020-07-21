@@ -27,6 +27,13 @@ var _ = Describe("Mapping files", func() {
 			return nil
 		}
 
+		oldHTTP := HTTP
+		defer func() { HTTP = oldHTTP }()
+		HTTP = func(url string, headers map[string]string, targetFile string) error {
+			afero.WriteFile(fs.Instance, "test/hgnc.json", []byte(hgncText), 0644)
+			return nil
+		}
+
 		MappingFiles("test")
 
 		expected := "[\n" +
@@ -101,6 +108,13 @@ var _ = Describe("Mapping files", func() {
 		defer func() { FTP = oldFTP }()
 		FTP = func(url, sourceFile, targetFile string) error {
 			zip.Gzip(uniprotText, "test/uniprot.dat.gz")
+			return nil
+		}
+
+		oldHTTP := HTTP
+		defer func() { HTTP = oldHTTP }()
+		HTTP = func(url string, headers map[string]string, targetFile string) error {
+			afero.WriteFile(fs.Instance, "test/hgnc.json", []byte(hgncText), 0644)
 			return nil
 		}
 

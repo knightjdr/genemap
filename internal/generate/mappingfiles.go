@@ -8,7 +8,10 @@ import (
 // MappingFiles generates file for mapping between types.
 func MappingFiles(folder string) {
 	fetchUniprot(folder)
+	fetchHGNC(folder)
 	entries := parseUniprot(folder)
+	hgnc := parseHGNC(folder)
+	entries = mergeData(entries, hgnc)
 	outputMapping(entries, folder)
 }
 
