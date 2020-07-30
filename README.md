@@ -108,5 +108,5 @@ file with IDs to convert (one entry per line). It will output a text file with t
 The output file name will be called `conversion.txt` if one is not supplied.
 
 ```
-> genemapconvert --fromType="Symbol" --toType=="Accession" --idFile="ids.txt" --mapFile="genemap.json" --outfile="my-out-file.txt"
+> genemapconvert --fromType="Symbol" --toType="Accession" --idFile="ids.txt" --mapFile="genemap.json" --outFile="my-out-file.txt"
 ```
