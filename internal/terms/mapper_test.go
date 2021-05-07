@@ -26,6 +26,7 @@ var _ = Describe("Mapper", func() {
 				Entrez:         "7529",
 				HGNC:           "12849",
 				ID:             "1433B_HUMAN",
+				Name:           "14-3-3 protein beta/alpha",
 				RefseqMRNA:     []string{"NM_003404", "NM_139323", "XM_017028039"},
 				RefseqProtein:  []string{"NP_003395", "NP_647539", "XP_016883528"},
 				Symbol:         []string{"YWHAB"},

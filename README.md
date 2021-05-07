@@ -3,17 +3,18 @@
 ## Currently supported identifiers
 
 | Identifier | Setting name | Examples |
-|-------------------|----------------|-----------------|
-| BioGRID           | Biogrid        | 116400          |
-| Ensembl gene      | EnsemblGene    | ENSG00000114209 |
-| Ensembl protein   | EnsemblProtein | ENSP00000376506 |
-| Entrez gene ID    | Entrez         | 11235           |
-| gene symbol       | Symbol         | PDCD10, CCM3    |
-| HGNC              | HGNC           | 8761            |
-| Refseq mRNA       | RefseqMRNA     | NM_007217       |
-| Refseq protein    | RefseqProtein  | NP_009148       |
-| UniProt Accession | Accession      | Q9BUL8          |
-| UniProt ID        | ID             | PDC10_HUMAN     |
+|-------------------|----------------|----------------------------------|
+| BioGRID           | Biogrid        | 116400                           |
+| Ensembl gene      | EnsemblGene    | ENSG00000114209                  |
+| Ensembl protein   | EnsemblProtein | ENSP00000376506                  |
+| Entrez gene ID    | Entrez         | 11235                            |
+| gene symbol       | Symbol         | PDCD10, CCM3                     |
+| HGNC              | HGNC           | 8761                             |
+| Protein name      | Name           | Programmed cell death protein 10 |
+| Refseq mRNA       | RefseqMRNA     | NM_007217                        |
+| Refseq protein    | RefseqProtein  | NP_009148                        |
+| UniProt Accession | Accession      | Q9BUL8                           |
+| UniProt ID        | ID             | PDC10_HUMAN                      |
 
 
 ## Installation for CLI (optional)

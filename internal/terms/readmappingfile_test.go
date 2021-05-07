@@ -48,24 +48,26 @@ var _ = Describe("Get record value", func() {
 			Entrez:         "7529",
 			HGNC:           "12849",
 			ID:             "1433B_HUMAN",
+			Name:           "14-3-3 protein beta/alpha",
 			RefseqMRNA:     []string{"NM_003404", "NM_139323", "XM_017028039"},
 			RefseqProtein:  []string{"NP_003395", "NP_647539", "XP_016883528"},
 			Symbol:         []string{"YWHAB"},
 		}
 
-		tests := []string{"Accession", "Biogrid", "EnsemblGene", "EnsemblProtein", "Entrez", "HGNC", "ID", "RefseqMRNA", "RefseqProtein", "Symbol", ""}
+		tests := []string{"Accession", "Biogrid", "EnsemblGene", "EnsemblProtein", "Entrez", "HGNC", "ID", "Name", "RefseqMRNA", "RefseqProtein", "Symbol", ""}
 		expected := [][]string{
-			[]string{"P31946", "A8K9K2", "E1P616"},
-			[]string{"113361"},
-			[]string{"ENSG00000166913"},
-			[]string{"ENSP00000300161", "ENSP00000361930"},
-			[]string{"7529"},
-			[]string{"12849"},
-			[]string{"1433B_HUMAN"},
-			[]string{"NM_003404", "NM_139323", "XM_017028039"},
-			[]string{"NP_003395", "NP_647539", "XP_016883528"},
-			[]string{"YWHAB"},
-			[]string{},
+			{"P31946", "A8K9K2", "E1P616"},
+			{"113361"},
+			{"ENSG00000166913"},
+			{"ENSP00000300161", "ENSP00000361930"},
+			{"7529"},
+			{"12849"},
+			{"1433B_HUMAN"},
+			{"14-3-3 protein beta/alpha"},
+			{"NM_003404", "NM_139323", "XM_017028039"},
+			{"NP_003395", "NP_647539", "XP_016883528"},
+			{"YWHAB"},
+			{},
 		}
 
 		for i, test := range tests {
@@ -92,6 +94,7 @@ var _ = Describe("Read mapping file", func() {
 				Entrez:         "7529",
 				HGNC:           "12849",
 				ID:             "1433B_HUMAN",
+				Name:           "14-3-3 protein beta/alpha",
 				RefseqMRNA:     []string{"NM_003404", "NM_139323", "XM_017028039"},
 				RefseqProtein:  []string{"NP_003395", "NP_647539", "XP_016883528"},
 				Symbol:         []string{"YWHAB"},

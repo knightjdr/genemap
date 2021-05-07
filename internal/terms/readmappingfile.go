@@ -18,6 +18,7 @@ type record struct {
 	Entrez         string
 	HGNC           string
 	ID             string
+	Name           string
 	RefseqMRNA     []string
 	RefseqProtein  []string
 	Symbol         []string
@@ -44,6 +45,9 @@ func (r record) getValue(field string) []string {
 	}
 	if field == "ID" {
 		return []string{r.ID}
+	}
+	if field == "Name" {
+		return []string{r.Name}
 	}
 	if field == "RefseqMRNA" {
 		return r.RefseqMRNA

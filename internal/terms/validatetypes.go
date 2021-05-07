@@ -40,6 +40,7 @@ func confirmValidType(m *Mapper) error {
 		"entrez":      "Entrez",
 		"hgnc":        "HGNC",
 		"id":          "ID",
+		"name":        "Name",
 		"refseqm":     "RefseqMRNA",
 		"refseqp":     "RefseqProtein",
 		"symbol":      "Symbol",
